@@ -3,7 +3,8 @@
 ClassWorld::ClassWorld()
 {
   _counter_u8 = 0;
-  _Rotary1_u8 = 0;
+  _DEFAULT_LIGHT_u8 = 60;
+  _Light_u8 = _DEFAULT_LIGHT_u8;
   XYpad1 = 0;
   XYpad2 = 0;
 }
@@ -18,14 +19,14 @@ uint8_t ClassWorld::getCounter_u8()
   return _counter_u8;
 }
 
-void ClassWorld::setRotary1(uint8_t value)
+void ClassWorld::setLight(uint8_t value)
 {
-  _Rotary1_u8 = value;
+  _Light_u8 = value;
 }
 
-uint8_t ClassWorld::getRotary1_u8()
+uint8_t ClassWorld::getLight_u8()
 {
-  return _Rotary1_u8;
+  return _Light_u8;
 }
 
 void ClassWorld::update()
@@ -39,19 +40,17 @@ void ClassWorld::updateFromBridge()
   char bridgeValueStr[stringSize];
 
   
-  // read rotary1:
-  Bridge.get("rotary1",bridgeValueStr, stringSize);
-  int rotary1 = atoi(bridgeValueStr);
-  if( rotary1>=0 && rotary1<255 )
+  // read light:
+  Bridge.get("light",bridgeValueStr, stringSize);
+  int light = atoi(bridgeValueStr);
+  if( light>=1 && light<255 )
   {
-    _Rotary1_u8=rotary1;
-      /*
-       Console.print("bridge value1  = ");
-       Console.println(_Rotary1_u8);
-       Console.print("bridge value2 = ");
-       Console.println(getRotary1_u8());
-      */
-  }     
+    _Light_u8=light;
+  } 
+  else
+  {
+    _Light_u8=_DEFAULT_LIGHT_u8;
+  }    
 
   // read xypad:
   Bridge.get("xypad1",bridgeValueStr, stringSize);

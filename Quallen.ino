@@ -43,8 +43,8 @@ void output()
   jellyFish2.paint_palette();
   jellyFish3.paint_bpm();
 
-  uint8_t bright = beatsin8( 60, 50, 150);
-  FastLED.setBrightness( bright );
+//  uint8_t bright = beatsin8( 60, 50, 150);
+  FastLED.setBrightness( World.getLight_u8() );
   
   FastLED.show();
 }

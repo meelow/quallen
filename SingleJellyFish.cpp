@@ -1,7 +1,5 @@
 /*
-  SingleJellyFish.cpp - Library for flashing SingleJellyFish code.
-  Created by David A. Mellis, November 2, 2007.
-  Released into the public domain.
+
 */
 
 #include "Arduino.h"
@@ -40,7 +38,7 @@ void SingleJellyFish::paint_confetti()
   // The led strip is divided into a fixed number of compartments containing some LEDs. 
   // Randomly a compartment starts fading in and out again. Randomness controllable by gRotary1
   // Color of compartment can be choosen with xyPad1 and xyPad2
-  uint8_t gRotary1=_world.getRotary1_u8();
+  uint8_t gRotary1=_world.getLight_u8();
   uint8_t gXYpad1=_world.XYpad1;
   uint8_t gXYpad2=_world.XYpad2;
   const uint8_t cCompartments=20;
@@ -89,9 +87,4 @@ void SingleJellyFish::paint_confetti()
         lValueOfCompartment[currentCompartment] = 1;
   }
 
-  EVERY_N_MILLISECONDS(1000) 
-  {
-     Console.print("World.Rotary1 = ");
-     Console.println(_world.getRotary1_u8());
-  }
 }

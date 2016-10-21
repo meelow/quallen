@@ -15,13 +15,13 @@ class ClassWorld
     uint8_t getCounter_u8();
     void update();
     void updateFromBridge();
-    void setRotary1(uint8_t value);
-    uint8_t getRotary1_u8();
+    void setLight(uint8_t value);
+    uint8_t getLight_u8();
     uint8_t XYpad1;
     uint8_t XYpad2;
   private:
     uint8_t _counter_u8;
-    uint8_t _Rotary1_u8;
+    uint8_t _Light_u8;
 
 };
 
