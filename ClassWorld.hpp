@@ -7,6 +7,8 @@
 #include "arduino.h"
 #include <Bridge.h>
 
+#define DEFAULT_LIGHT_u8 60
+
 class ClassWorld
 {
   public:

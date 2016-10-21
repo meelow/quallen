@@ -3,8 +3,7 @@
 ClassWorld::ClassWorld()
 {
   _counter_u8 = 0;
-  _DEFAULT_LIGHT_u8 = 60;
-  _Light_u8 = _DEFAULT_LIGHT_u8;
+  _Light_u8 = DEFAULT_LIGHT_u8;
   XYpad1 = 0;
   XYpad2 = 0;
 }
@@ -43,13 +42,13 @@ void ClassWorld::updateFromBridge()
   // read light:
   Bridge.get("light",bridgeValueStr, stringSize);
   int light = atoi(bridgeValueStr);
-  if( light>=1 && light<255 )
+  if( light>=1 && light<=256 )
   {
-    _Light_u8=light;
+    _Light_u8=light-1;
   } 
   else
   {
-    _Light_u8=_DEFAULT_LIGHT_u8;
+    _Light_u8=DEFAULT_LIGHT_u8;
   }    
 
   // read xypad:
