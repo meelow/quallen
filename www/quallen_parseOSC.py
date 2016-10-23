@@ -29,7 +29,7 @@ def faderLight_callback(path, tags, args, source):
 		faderLightFeedback = int(args[0])
 		#put parameter to the bridge:
 		json.send({'command':'put', 'key':'light', 'value':'%i' % (faderLightFeedback)})		
-		print str(path) +" "+ str(faderLightFeedback)
+		print "received: " +repr(source)+ " " + str(path) + " " + str(faderLightFeedback)
 		#create feedback for faders label:
 		msg = OSCMessage("/self/label_light")		
 		msg.insert(0, faderLightFeedback)
@@ -37,88 +37,180 @@ def faderLight_callback(path, tags, args, source):
 		client.send(msg)
 server.addMsgHandler( "/self/light",faderLight_callback) #register function for handling "fader" control
 
-# Adding functionality for the "fps" fader:
-def faderFPS_callback(path, tags, args, source):
-	global faderFPSFeedback
-	if path=="/1/fps":
+# Adding functionality for the "sequential_value" fader:
+def faderSequential_callback(path, tags, args, source):
+	global faderSequentialFeedback
+	if path=="/self/sequential_value":
 		#extract parameter:
-		faderFPSFeedback = int(args[0])	
+		faderSequentialFeedback = int(args[0])	
 		#put parameter to the bridge:	
-		json.send({'command':'put', 'key':'fps', 'value':'%i' % (faderFPSFeedback)})	
+		json.send({'command':'put', 'key':'sequential_value', 'value':'%i' % (faderSequentialFeedback)})	
 		#create feedback for faders label:	
-		msg = OSCMessage("/1/label_fps")
-		msg.insert(0, faderFPSFeedback)
+		msg = OSCMessage("/self/label_Sequential")
+		msg.insert(0, faderSequentialFeedback)
 		client.connect( (source[0], 9000) )
 		client.send(msg)
-		print "received: " +repr(source)+ " " + str(path) 
-server.addMsgHandler( "/1/fps",faderFPS_callback)
+		print "received: " +repr(source)+ " " + str(path) + " " + str(faderSequentialFeedback)
+server.addMsgHandler( "/self/sequential_value",faderSequential_callback)
 
-def multiselectState_callback(path, tags, args, source):
-	print "received: " +repr(source)+ " " + str(path) 
+# Adding functionality for the "sequential_toggle" button:
+def toggleSequential_callback(path, tags, args, source):
+	global toggleSequentialFeedback
+	if path=="/self/sequential_toggle":
+		#extract parameter:
+		toggleSequentialFeedback = int(args[0])	
+		#put parameter to the bridge:	
+		json.send({'command':'put', 'key':'sequential_toggle', 'value':'%i' % (toggleSequentialFeedback)})	
+		print "received: " +repr(source)+ " " + str(path) + " " + str(toggleSequentialFeedback)
+server.addMsgHandler( "/self/sequential_toggle",toggleSequential_callback)
+
+
+# Adding functionality for the "bpmfade_value" fader:
+def faderbpmfade_callback(path, tags, args, source):
+	global faderbpmfadeFeedback
+	if path=="/self/bpmfade_value":
+		#extract parameter:
+		faderbpmfadeFeedback = int(args[0])	
+		#put parameter to the bridge:	
+		json.send({'command':'put', 'key':'bpmfade_value', 'value':'%i' % (faderbpmfadeFeedback)})	
+		#create feedback for faders label:	
+		msg = OSCMessage("/self/label_bpmfade")
+		msg.insert(0, faderbpmfadeFeedback)
+		client.connect( (source[0], 9000) )
+		client.send(msg)
+		print "received: " +repr(source)+ " " + str(path) + " " + str(faderbpmfadeFeedback)
+server.addMsgHandler( "/self/bpmfade_value",faderbpmfade_callback)
+
+# Adding functionality for the "bpmfade_toggle" button:
+def togglebpmfade_callback(path, tags, args, source):
+	global togglebpmfadeFeedback
+	if path=="/self/bpmfade_toggle":
+		#extract parameter:
+		togglebpmfadeFeedback = int(args[0])	
+		#put parameter to the bridge:	
+		json.send({'command':'put', 'key':'bpmfade_toggle', 'value':'%i' % (togglebpmfadeFeedback)})	
+		print "received: " +repr(source)+ " " + str(path) + " " + str(togglebpmfadeFeedback)
+server.addMsgHandler( "/self/bpmfade_toggle",togglebpmfade_callback)
+
+def bing1_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
+	json.send({'command':'put', 'key':'bing1', 'value':'255' })
+server.addMsgHandler("/self/bing/1/1", bing1_callback)
+
+def bing2_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
+	json.send({'command':'put', 'key':'bing2', 'value':'255' })
+server.addMsgHandler("/self/bing/2/1", bing2_callback)
+
+def bing1_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
+	json.send({'command':'put', 'key':'bing3', 'value':'255' })
+server.addMsgHandler("/self/bing/3/1", bing1_callback)
+
+############################################################################
+# Mode1 and palette1
+def multiselectMode1_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source) 
 	split = path.split("/")
 	state = split.pop()
 	state = split.pop()
 	if args[0]==1:
 		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
-		json.send({'command':'put', 'key':'state', 'value':'%i' % int(int(state)-1)})
+		json.send({'command':'put', 'key':'mode1', 'value':'%i' % int(int(state))})
 		msg = OSCMessage(path)
 		msg.insert(0, 1)
 		client.connect( (source[0], 9000) )
 		client.send(msg)
 for x in range(0,20):
-	server.addMsgHandler("/1/state/"+str(x)+"/1", multiselectState_callback)
+	server.addMsgHandler("/self/mode1/"+str(x)+"/1", multiselectMode1_callback)
 
-def multiselectPalette_callback(path, tags, args, source):
-	print "received: " +repr(source)+ " " + str(path) 
+def multiselectPalette1_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
 	split = path.split("/")
 	Palette = split.pop()
 	Palette = split.pop()
 	if args[0]==1:
 		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
-		json.send({'command':'put', 'key':'palette', 'value':'%i' % int(int(Palette)-1)})
+		json.send({'command':'put', 'key':'palette1', 'value':'%i' % int(int(Palette))})
 		msg = OSCMessage(path)
 		msg.insert(0, 1)
 		client.connect( (source[0], 9000) )
 		client.send(msg)
 for x in range(0,20):
-	server.addMsgHandler("/1/palette/"+str(x)+"/1", multiselectPalette_callback)
+	server.addMsgHandler("/self/palette1/"+str(x)+"/1", multiselectPalette1_callback)
 
-  
-def rotary1_callback(path, tags, args, source):
-	print str(path) + " " + str(args[0])
-	json.send({'command':'put', 'key':'rotary1', 'value':'%i' % int(args[0])})
-	#create feedback for faders label:	
-	msg = OSCMessage("/1/label_rotary1")
-	msg.insert(0, int(args[0]))
-	client.connect( (source[0], 9000) )
-	client.send(msg)
-server.addMsgHandler("/1/rotary1/", rotary1_callback)
-	
-def xypad_callback(path, tags, args, source):
-	print str(path) + " " + str(int(args[0]))+ " " +str(int(args[1]))
-	json.send({'command':'put', 'key':'xypad1', 'value':'%i' % int(args[0])})
-	json.send({'command':'put', 'key':'xypad2', 'value':'%i' % int(args[1])})	
-server.addMsgHandler("/1/xypad/", xypad_callback)
 
-def accell_callback(path, tags, args, source):
-	print str(path) + " " + str(float(args[0]))+ " " +str(float(args[1])) + " " +str(float(args[2]))
-	json.send({'command':'put', 'key':'accxyz', 'value':'%i' % int(args[0])})	
-server.addMsgHandler("/accxyz/", accell_callback)
 
-def push1_callback(path, tags, args, source):
-	print str(path) 
-	json.send({'command':'put', 'key':'push1', 'value':'255' })
-server.addMsgHandler("/1/push1/", push1_callback)
 
-def push2_callback(path, tags, args, source):
-	print str(path) 
-	json.send({'command':'put', 'key':'push2', 'value':'255' })
-server.addMsgHandler("/1/push2/", push2_callback)
 
-def push3_callback(path, tags, args, source):
-	print str(path) 
-	json.send({'command':'put', 'key':'push3', 'value':'255' })
-server.addMsgHandler("/1/push3/", push3_callback)
+############################################################################
+# Mode2 and palette2
+def multiselectMode2_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source) 
+	split = path.split("/")
+	state = split.pop()
+	state = split.pop()
+	if args[0]==1:
+		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
+		json.send({'command':'put', 'key':'mode2', 'value':'%i' % int(int(state))})
+		msg = OSCMessage(path)
+		msg.insert(0, 1)
+		client.connect( (source[0], 9000) )
+		client.send(msg)
+for x in range(0,20):
+	server.addMsgHandler("/self/mode2/"+str(x)+"/1", multiselectMode2_callback)
+
+def multiselectPalette2_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
+	split = path.split("/")
+	Palette = split.pop()
+	Palette = split.pop()
+	if args[0]==1:
+		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
+		json.send({'command':'put', 'key':'palette2', 'value':'%i' % int(int(Palette))})
+		msg = OSCMessage(path)
+		msg.insert(0, 1)
+		client.connect( (source[0], 9000) )
+		client.send(msg)
+for x in range(0,20):
+	server.addMsgHandler("/self/palette2/"+str(x)+"/1", multiselectPalette2_callback)
+
+
+
+
+
+
+############################################################################
+# Mode3 and palette3
+def multiselectMode3_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source) 
+	split = path.split("/")
+	state = split.pop()
+	state = split.pop()
+	if args[0]==1:
+		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
+		json.send({'command':'put', 'key':'mode3', 'value':'%i' % int(int(state))})
+		msg = OSCMessage(path)
+		msg.insert(0, 1)
+		client.connect( (source[0], 9000) )
+		client.send(msg)
+for x in range(0,20):
+	server.addMsgHandler("/self/mode3/"+str(x)+"/1", multiselectMode3_callback)
+
+def multiselectPalette3_callback(path, tags, args, source):
+	print "received: " +repr(source)+ " " + str(path) + " " + str(args) + " " + str(source)
+	split = path.split("/")
+	Palette = split.pop()
+	Palette = split.pop()
+	if args[0]==1:
+		#requests.get("http://192.168.1.104/arduino/state/"+str(int(state)-1))
+		json.send({'command':'put', 'key':'palette3', 'value':'%i' % int(int(Palette))})
+		msg = OSCMessage(path)
+		msg.insert(0, 1)
+		client.connect( (source[0], 9000) )
+		client.send(msg)
+for x in range(0,20):
+	server.addMsgHandler("/self/palette3/"+str(x)+"/1", multiselectPalette3_callback)
 
 while True:
 	server.handle_request()

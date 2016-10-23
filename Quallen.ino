@@ -3,7 +3,7 @@
 #include "SingleJellyFish.hpp"
 #include "ClassWorld.hpp"
 
-#undef DEBUG
+#define DEBUG
 #ifdef DEBUG
   #include <Console.h>
 #endif
@@ -39,12 +39,25 @@ void processing()
 
 void output()
 {
-  jellyFish1.paint_confetti();
-  jellyFish2.paint_palette();
-  jellyFish3.paint_bpm();
 
-//  uint8_t bright = beatsin8( 60, 50, 150);
-  FastLED.setBrightness( World.getLight_u8() );
+  if( World._sequentialToggle_u8==1)
+  {
+    sequential();
+  }
+  else
+  {
+    jellyFish1.paint_confetti();
+    jellyFish2.paint_palette();
+    jellyFish3.paint_bpm();
+  }
+
+  if( World._BpmFadeToggle_u8==1 )
+  {
+    uint8_t bright = beatsin8( World._BpmFadeValue_u8, 0, World.getLight_u8());
+    FastLED.setBrightness( bright );
+  }
+  else
+    FastLED.setBrightness( World.getLight_u8() );
   
   FastLED.show();
 }
@@ -71,14 +84,41 @@ void setup()
 
 void loop() 
 { 
-  EVERY_N_MILLISECONDS(200) { input(); }
+  EVERY_N_MILLISECONDS(100) { input(); }
   EVERY_N_MILLISECONDS(29) { processing(); }
-  EVERY_N_MILLISECONDS(30) { output(); }
-  #ifdef asdf
+  EVERY_N_MILLISECONDS(10) { output(); }
+  #ifdef DEBUG
     EVERY_N_MILLISECONDS(1000) 
     {
-       Console.print("World.Rotary1=");
-       Console.println(World.Rotary1);
+       Console.print("World.mode=");
+       Console.println(World._mode1_u8);
+
+       Console.print("World._BpmFadeToggle_u8=");
+       Console.println(World._BpmFadeToggle_u8);
+       Console.print("World._BpmFadeValue_u8=");
+       Console.println(World._BpmFadeValue_u8);
+
+
+       Console.print("World._sequentialToggle_u8=");
+       Console.println(World._sequentialToggle_u8);
+       Console.print("World._sequentialValue_u8=");
+       Console.println(World._sequentialValue_u8);
     }
   #endif
+}
+
+
+void sequential()
+{
+   // fade preveious colors (looks good when changing mode)
+   const uint8_t cFadeAmmount=100;
+   fadeToBlackBy( leds, NUM_LEDS, cFadeAmmount);
+   
+   uint8_t numberOfPixelsToBeat = beatsin8(World._sequentialValue_u8, 0, NUM_LEDS);
+
+  for( uint8_t i=0; i<numberOfPixelsToBeat; i++ )
+  {
+    leds[i] = CRGB::Red;
+  }
+
 }

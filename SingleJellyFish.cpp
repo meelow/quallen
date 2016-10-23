@@ -39,8 +39,8 @@ void SingleJellyFish::paint_confetti()
   // Randomly a compartment starts fading in and out again. Randomness controllable by gRotary1
   // Color of compartment can be choosen with xyPad1 and xyPad2
   uint8_t gRotary1=_world.getLight_u8();
-  uint8_t gXYpad1=_world.XYpad1;
-  uint8_t gXYpad2=_world.XYpad2;
+  uint8_t gXYpad1=0;
+  uint8_t gXYpad2=0;
   const uint8_t cCompartments=20;
   const uint8_t cCompartmentLength=_leds.size()/cCompartments;
   const uint8_t cFadeAmmount=10;
