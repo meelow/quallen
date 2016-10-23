@@ -30,7 +30,7 @@ class ClassWorld
     void updateFromBridge();
     void setLight(uint8_t value);
     uint8_t getLight_u8();
-
+    void print();
 
     // should actually be privte:
     uint8_t _counter_u8;

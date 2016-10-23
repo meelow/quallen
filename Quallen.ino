@@ -87,9 +87,11 @@ void loop()
   EVERY_N_MILLISECONDS(100) { input(); }
   EVERY_N_MILLISECONDS(29) { processing(); }
   EVERY_N_MILLISECONDS(10) { output(); }
+
   #ifdef DEBUG
     EVERY_N_MILLISECONDS(1000) 
     {
+/*
        Console.print("World.mode=");
        Console.println(World._mode1_u8);
 
@@ -103,6 +105,8 @@ void loop()
        Console.println(World._sequentialToggle_u8);
        Console.print("World._sequentialValue_u8=");
        Console.println(World._sequentialValue_u8);
+       */
+      World.print();
     }
   #endif
 }

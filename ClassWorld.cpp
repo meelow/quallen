@@ -4,7 +4,17 @@ ClassWorld::ClassWorld()
 {
   _counter_u8 = 0;
   _Light_u8 = DEFAULT_LIGHT_u8;
-
+  _Light_u8 = DEFAULT_LIGHT_u8;
+  _mode1_u8 = DEFAULT_MODE1_u8;
+  _mode2_u8 = DEFAULT_MODE2_u8;
+  _mode3_u8 = DEFAULT_MODE3_u8;
+  _palette1_u8 = DEFAULT_PALETTE1_u8;
+  _palette2_u8 = DEFAULT_PALETTE2_u8;
+  _palette3_u8 = DEFAULT_PALETTE3_u8;
+  _BpmFadeToggle_u8 = DEFAULT_BPMFADE_TOGGLE; 
+  _BpmFadeValue_u8  = DEFAULT_BPMFADE_VALUE; 
+  _sequentialToggle_u8 = DEFAULT_SEQUENTIAL_TOGGLE; 
+  _sequentialValue_u8  = DEFAULT_SEQUENTIAL_VALUE;
 }
 
 void ClassWorld::setCounter(uint8_t c)
@@ -178,23 +188,26 @@ void ClassWorld::updateFromBridge()
 
 
 }
-/*
+
 void ClassWorld::print()
 {
-  #ifdef DEBUG
-    Console.print("World.mode=");
+    Console.println();
+    Console.println("===============================");
+
+    Console.print("World.mode1=");
     Console.println(_mode1_u8);
+
+    Console.println();
 
     Console.print("World._BpmFadeToggle_u8=");
     Console.println(_BpmFadeToggle_u8);
     Console.print("World._BpmFadeValue_u8=");
     Console.println(_BpmFadeValue_u8);
 
+    Console.println();
 
     Console.print("World._sequentialToggle_u8=");
     Console.println(_sequentialToggle_u8);
     Console.print("World._sequentialValue_u8=");
     Console.println(_sequentialValue_u8);
-  #endif
 }
-*/
