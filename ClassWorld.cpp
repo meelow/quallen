@@ -43,7 +43,7 @@ uint8_t ClassWorld::getLight_u8()
 
 void ClassWorld::update()
 {
-  _counter_u8+=10;
+  _counter_u8+=1;
 }
 
 uint8_t ClassWorld::getMode(uint8_t jellyFishNumber)

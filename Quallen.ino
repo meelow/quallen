@@ -3,7 +3,7 @@
 #include "SingleJellyFish.hpp"
 #include "ClassWorld.hpp"
 
-#define DEBUG
+#undef DEBUG
 #ifdef DEBUG
   #include <Console.h>
 #endif
@@ -27,7 +27,7 @@ void sequential()
 
   for( uint8_t i=0; i<numberOfPixelsToBeat; i++ )
   {
-    leds[i] = CRGB::Red;
+    leds[i] = ColorFromPalette(World.getPalette(1), World.getCounter_u8()+i, World.getLight_u8());
   }
 
 }

@@ -86,6 +86,8 @@ void SingleJellyFish::paint_confetti()
       {
         uint8_t compartmentStartPixel = currentCompartment * cCompartmentLength;
         _leds[compartmentStartPixel+currentPixel] = CHSV( gXYpad1, gXYpad2, lValueOfCompartment[currentCompartment]);
+//        CRGB color = ColorFromPalette(_world.getPalette(_number_u8), _world.getCounter_u8(), _world.getLight_u8());
+//        _leds[compartmentStartPixel+currentPixel] = CHSV( color.hue, color.value, lValueOfCompartment[currentCompartment]);
       }
     }
   }
