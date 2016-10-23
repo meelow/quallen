@@ -6,30 +6,49 @@
 #include "SingleJellyFish.hpp"
 
 
-SingleJellyFish::SingleJellyFish(CRGBSet leds, ClassWorld &world)
-:_leds(leds),
+SingleJellyFish::SingleJellyFish(uint8_t number, CRGBSet leds, ClassWorld &world)
+:_number_u8(number),
+ _leds(leds),
  _world( world )
 {
 }
 
 void SingleJellyFish::paint_rainbow()
 {
-  _leds(0,_leds.size()).fill_rainbow(_world.getCounter_u8());
+  _leds(0,_leds.size()-1).fill_rainbow(_world.getCounter_u8());
 }
 
 void SingleJellyFish::paint_palette()
 {
-  fill_palette (_leds, _leds.size(), _world.getCounter_u8(), 1, OceanColors_p, 250, LINEARBLEND);
+  CRGBPalette16 palette = _world.getPalette(_number_u8);
+  fill_palette (_leds, _leds.size(), _world.getCounter_u8(), 1, palette, 250, LINEARBLEND);
 }
 
 void SingleJellyFish::paint_bpm()
 {
+  CRGBPalette16 palette = _world.getPalette(_number_u8);
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
   uint8_t BeatsPerMinute = 62;
-  CRGBPalette16 palette = PartyColors_p;
   uint8_t beat = beatsin8( BeatsPerMinute, 64, 255);
   for( int i = 0; i < _leds.size(); i++) { //9948
     _leds[i] = ColorFromPalette(palette, _world.getCounter_u8()+(i*2), beat-_world.getCounter_u8()+(i*10));
+  }
+}
+
+void SingleJellyFish::paint()
+{
+  switch(_world.getMode(_number_u8))
+  {
+    case 0:
+      paint_confetti();
+    break;
+    case 1:
+      paint_palette();
+    break;
+    case 2:
+      paint_bpm();
+    break;
+//    default:
   }
 }
 

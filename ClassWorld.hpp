@@ -6,6 +6,7 @@
 
 #include "arduino.h"
 #include <Bridge.h>
+#include <FastLED.h>
 
 
 #define DEFAULT_LIGHT_u8 60
@@ -31,6 +32,8 @@ class ClassWorld
     void setLight(uint8_t value);
     uint8_t getLight_u8();
     void print();
+    uint8_t getMode(uint8_t jellyFishNumber);
+    CRGBPalette16 getPalette(uint8_t jellyFishNumber);
 
     // should actually be privte:
     uint8_t _counter_u8;
@@ -49,7 +52,7 @@ class ClassWorld
     uint8_t _palette2_u8;
     uint8_t _palette3_u8;  
   private:
-
+      CRGBPalette16 _palettes[3];
 
 };
 

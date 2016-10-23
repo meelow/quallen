@@ -15,6 +15,10 @@ ClassWorld::ClassWorld()
   _BpmFadeValue_u8  = DEFAULT_BPMFADE_VALUE; 
   _sequentialToggle_u8 = DEFAULT_SEQUENTIAL_TOGGLE; 
   _sequentialValue_u8  = DEFAULT_SEQUENTIAL_VALUE;
+
+  _palettes[0] = PartyColors_p;
+  _palettes[1] = OceanColors_p;
+  _palettes[2] = HeatColors_p;
 }
 
 void ClassWorld::setCounter(uint8_t c)
@@ -39,8 +43,53 @@ uint8_t ClassWorld::getLight_u8()
 
 void ClassWorld::update()
 {
-  _counter_u8++;
+  _counter_u8+=10;
 }
+
+uint8_t ClassWorld::getMode(uint8_t jellyFishNumber)
+{
+  uint8_t ret=0;
+  switch(jellyFishNumber)
+  {
+    case 1:
+      ret=_mode1_u8;
+    break;
+    case 2:
+      ret=_mode2_u8;
+    break;
+    case 3:
+      ret=_mode3_u8;
+    break;
+    default:
+      ret=0;
+  }
+  return ret;
+}
+
+CRGBPalette16 ClassWorld::getPalette(uint8_t jellyFishNumber)
+{
+
+  uint8_t paletteIndex=0;
+  switch(jellyFishNumber)
+  {
+    case 1:
+      paletteIndex = _palette1_u8;
+    break;
+    case 2:
+      paletteIndex = _palette2_u8;
+    break;
+    case 3:
+      paletteIndex = _palette3_u8;
+    break;
+  }
+
+  if( (paletteIndex>=0) && (paletteIndex<3) )
+  {
+    return _palettes[paletteIndex];
+  }
+}
+
+
 
 void ClassWorld::updateFromBridge()
 {
@@ -194,8 +243,19 @@ void ClassWorld::print()
     Console.println();
     Console.println("===============================");
 
-    Console.print("World.mode1=");
-    Console.println(_mode1_u8);
+    Console.print("World.mode1/2/3 = ");
+    Console.print(_mode1_u8); 
+    Console.print(" / ");
+    Console.print(_mode2_u8);
+    Console.print(" / ");
+    Console.println(_mode3_u8);
+
+    Console.print("World.palette1/2/3 = ");
+    Console.print(_palette1_u8); 
+    Console.print(" / ");
+    Console.print(_palette2_u8);
+    Console.print(" / ");
+    Console.println(_palette3_u8);
 
     Console.println();
 
