@@ -91,21 +91,6 @@ void loop()
   #ifdef DEBUG
     EVERY_N_MILLISECONDS(1000) 
     {
-/*
-       Console.print("World.mode=");
-       Console.println(World._mode1_u8);
-
-       Console.print("World._BpmFadeToggle_u8=");
-       Console.println(World._BpmFadeToggle_u8);
-       Console.print("World._BpmFadeValue_u8=");
-       Console.println(World._BpmFadeValue_u8);
-
-
-       Console.print("World._sequentialToggle_u8=");
-       Console.println(World._sequentialToggle_u8);
-       Console.print("World._sequentialValue_u8=");
-       Console.println(World._sequentialValue_u8);
-       */
       World.print();
     }
   #endif
